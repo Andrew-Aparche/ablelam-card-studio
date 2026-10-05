@@ -17,6 +17,7 @@ export function drawTemplate(ctx, background, width = WIDTH, height = HEIGHT) {
   ctx.save(); ctx.scale(width / WIDTH, height / HEIGHT);
   const variant = background.variant || 0;
   ctx.fillStyle = background.color; ctx.fillRect(0, 0, WIDTH, HEIGHT);
+  if (background.id === 'blank') { ctx.restore(); return; }
   if (background.id === 'sage') {
     ctx.fillStyle = '#c5cdb740'; ctx.beginPath(); ctx.ellipse(1110, 40, 340, 480, -.45, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = '#acb99b44'; ctx.beginPath(); ctx.ellipse(1080, 480, 400, 280, -.6, 0, Math.PI * 2); ctx.fill();
@@ -101,11 +102,18 @@ export async function renderCard(canvas, doc, scale = 1) {
 export async function cardDataURL(doc) {
   const canvas = document.createElement('canvas'); await renderCard(canvas, doc); return canvas.toDataURL('image/png');
 }
-export async function exportCard(doc, format, scale) {
+export async function cardBlob(doc, format, scale) {
   const canvas = document.createElement('canvas'); await renderCard(canvas, doc, scale);
   const blob = await new Promise(resolve => canvas.toBlob(resolve, format === 'jpeg' ? 'image/jpeg' : 'image/png', .96));
-  if (!blob) throw new Error('이미지를 저장하지 못했어요. 다시 시도해주세요.');
+  if (!blob) throw new Error('이미지를 만들지 못했어요. 다시 시도해주세요.');
+  return blob;
+}
+export async function exportCard(doc, format, scale, suffix = '') {
+  const blob = await cardBlob(doc, format, scale);
   const url = URL.createObjectURL(blob), anchor = document.createElement('a');
-  anchor.href = url; anchor.download = `${doc.title.replace(/[\\/:*?"<>|]/g, '_') || '명함'}.${format === 'jpeg' ? 'jpg' : 'png'}`;
-  anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  anchor.href = url; anchor.download = `${doc.title.replace(/[\\/:*?"<>|]/g, '_') || '명함'}${suffix}.${format === 'jpeg' ? 'jpg' : 'png'}`;
+  document.body.append(anchor); anchor.click(); anchor.remove();
+  // Browser download completion cannot be observed here; never report it as a saved file.
+  setTimeout(() => URL.revokeObjectURL(url), 120000);
+  return { status: 'download_requested', filename: anchor.download };
 }

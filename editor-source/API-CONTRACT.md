@@ -73,3 +73,8 @@ refineLayout({ document, preview, direction }): Promise<{ layers, explanation }>
 배경을 바꾸는 이미지 생성과 텍스트 배치를 정리하는 작업은 서로 독립된 계약입니다. 타이포그래피를 PNG에 직접 구워 넣기보다 서식 데이터로 반환하는 구조를 사용합니다.
 
 요청 타임아웃은 120초입니다. 2xx가 아닌 응답은 사용자에게 오류로 안내하고 현재 편집 상태를 유지합니다.
+
+
+## 데스크탑 플러그인 0.3.0
+
+일반 mock/선택적 원격 어댑터는 위 단면 document 구조를 유지합니다. 앞·뒷면 프로젝트에서 선택한 면을 어댑터에 전달합니다. 실제 플러그인 연결은 ../plugins/ablelam-card-studio/skills/card-studio/references/protocol.md를 따릅니다. 저장 프로젝트는 version 2, face는 front/back이며 시안 전달·상태 조회와 원본 파일 저장은 세션 로컬 서버를 사용합니다. 원격 이미지 API나 OAuth로 호스트 이미지 도구를 연결하지 않습니다.

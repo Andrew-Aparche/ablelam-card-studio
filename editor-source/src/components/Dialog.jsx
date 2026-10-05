@@ -9,7 +9,7 @@ export default function Dialog({ title, children, onClose, wide = false }) {
     const keydown = event => {
       if (event.key === 'Escape') { event.preventDefault(); closeRef.current(); }
       if (event.key === 'Tab') {
-        const focusable = [...ref.current.querySelectorAll('button:not(:disabled), input, select, textarea, [tabindex="0"]')].filter(el => el.getClientRects().length);
+        const focusable = [...ref.current.querySelectorAll('button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea, a[href], [tabindex="0"]')].filter(el => el.getClientRects().length);
         const first = focusable[0], last = focusable.at(-1);
         if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }

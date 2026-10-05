@@ -1,18 +1,22 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "ablelam-card-studio",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "로그인된 데스크탑앱의 로컬 Work·Codex에서 자유 규격 명함을 편집하고, 내장 이미지 도구와 WebMCP로 디자인 시안을 주고받는 에이블램 명함 스튜디오.",
-  "author": { "name": "에이블램" },
+  "author": {
+    "name": "에이블램"
+  },
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "에이블램 명함 스튜디오",
         "shortDescription": "명함을 편집하고 ChatGPT와 다듬기",
-        "longDescription": "로컬 명함 편집기를 내장 브라우저에서 엽니다. 가로·세로 규격, 글자, 폰트, 위치를 직접 바꾸고 PNG/JPEG로 저장합니다. 채팅으로 요청하면 호스트의 내장 이미지 생성 도구를 사용해 배경을 만들거나 텍스트 레이어의 배치를 정리해 비교 시안을 전달합니다. Node.js와 로컬 컴퓨터 접근이 가능한 데스크탑 환경이 필요합니다. 버튼만으로 채팅을 자동 시작하지 않습니다.",
+        "longDescription": "로컬 명함 편집기를 내장 브라우저에서 엽니다. 앞면과 뒷면의 글자·배경을 따로 편집하고 규격은 함께 바꿉니다. PNG/JPEG를 작업 폴더에 저장하고 저장 경로를 확인합니다. 채팅으로 내장 이미지 도구와 배치 시안을 요청하고 전달·적용 결과를 기록합니다. Node.js와 로컬 컴퓨터 접근이 가능한 데스크탑 환경이 필요합니다. 버튼만으로 채팅을 자동 시작하지 않습니다.",
         "developerName": "에이블램",
         "category": "Productivity",
-        "capabilities": ["Interactive"],
+        "capabilities": [
+          "Interactive"
+        ],
         "logo": "./assets/icon.svg",
         "composerIcon": "./assets/icon.svg",
         "brandColor": "#153f32",

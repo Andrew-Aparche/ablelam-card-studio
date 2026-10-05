@@ -68,3 +68,36 @@ export function mergeRefinement(original, result) {
     return cleanLayer({ ...layer, ...Object.fromEntries(keys.filter(k => update[k] !== undefined).map(k => [k, update[k]])) }, original);
   }) };
 }
+
+// The existing renderer still receives a single version-1 face document.
+export const SIDES = ['front', 'back'];
+export const SIDE_LABELS = { front: '앞면', back: '뒷면' };
+export function isProject(value) {
+  return value?.version === 2 && SIDES.every(side => isDocument(faceDocument(value, side)));
+}
+export function faceDocument(project, side = 'front') {
+  if (!project?.sides?.[side]) return null;
+  return { version: 1, title: project.title, width: project.width, height: project.height, background: project.sides[side].background, layers: project.sides[side].layers };
+}
+export function migrateProject(value) {
+  if (isProject(value)) return { ...value, sides: Object.fromEntries(SIDES.map(side => {
+    const doc = faceDocument(value, side);
+    return [side, { background: doc.background, layers: doc.layers.map(layer => cleanLayer(layer, doc)) }];
+  })) };
+  const front = isDocument(value) ? value : createDocument();
+  return { version: 2, title: front.title, width: front.width, height: front.height,
+    sides: { front: { background: front.background, layers: front.layers.map(layer => cleanLayer(layer, front)) },
+      back: { background: { id: 'blank', type: 'template', color: '#fcfbf7', ink: '#183e32', label: '빈 배경' }, layers: [] } } };
+}
+export function replaceFace(project, side, doc) {
+  if (!SIDES.includes(side)) throw new Error('앞면 또는 뒷면을 선택해주세요.');
+  return { ...project, title: doc.title, sides: { ...project.sides, [side]: { background: doc.background, layers: doc.layers } } };
+}
+export function resizeProject(project, widthMm, heightMm) {
+  const faces = Object.fromEntries(SIDES.map(side => [side, resizeDocument(faceDocument(project, side), widthMm, heightMm)]));
+  return { ...project, width: faces.front.width, height: faces.front.height,
+    sides: Object.fromEntries(SIDES.map(side => [side, { background: faces[side].background, layers: faces[side].layers }])) };
+}
+export function faceFingerprint(doc) {
+  return JSON.stringify({ width: doc.width, height: doc.height, background: doc.background, layers: doc.layers });
+}
