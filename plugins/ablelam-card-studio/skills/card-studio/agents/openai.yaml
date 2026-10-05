@@ -1,0 +1,9 @@
+interface:
+  display_name: "에이블램 명함 스튜디오"
+  short_description: "명함을 편집하고 ChatGPT와 다듬기"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#153f32"
+  default_prompt: "에이블램 명함 스튜디오를 열어줘."
+policy:
+  allow_implicit_invocation: true

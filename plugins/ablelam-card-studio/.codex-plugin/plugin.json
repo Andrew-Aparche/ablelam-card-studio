@@ -1,0 +1,19 @@
+{
+  "name": "ablelam-card-studio",
+  "version": "0.2.0",
+  "description": "자유 규격 명함 편집기와 ChatGPT 디자인 시안을 연결하는 로컬 데스크탑 플러그인.",
+  "author": { "name": "에이블램" },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "에이블램 명함 스튜디오",
+    "shortDescription": "명함을 편집하고 ChatGPT와 다듬기",
+    "longDescription": "로컬 명함 편집기를 내장 브라우저에서 엽니다. Node.js와 로컬 컴퓨터 접근이 가능한 데스크탑 환경에서 글자·규격을 편집하고 채팅으로 디자인 시안을 요청합니다.",
+    "developerName": "에이블램",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "logo": "./assets/icon.svg",
+    "composerIcon": "./assets/icon.svg",
+    "brandColor": "#153f32",
+    "defaultPrompt": "에이블램 명함 스튜디오를 열어줘."
+  }
+}
